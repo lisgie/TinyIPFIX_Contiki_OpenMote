@@ -2,7 +2,7 @@
 #include <string.h>
 
 //here comes the choosing of the sensor
-#include "../hw_module/sky.h"
+#include "../hw_module/openmote.h"
 
 //maybe not needed
 #ifndef EXTENDED_HEADER_SEQ

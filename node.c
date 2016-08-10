@@ -1,11 +1,10 @@
 #include "contiki.h"
-#include "net/tcpip.h"
-#include "dev/leds.h"
-#include "networking/networking.h"
+#include <stdint.h>
+//#include "net/ip/tcpip.h"
+//#include "dev/leds.h"
+//#include "networking/networking.h"
 
-#include "TinyIPFIX/tinyipfix.h"
-
-struct template_rec *sky_rec;
+//#include "TinyIPFIX/tinyipfix.h"
 
 PROCESS(main_proc, "Main Process");
 AUTOSTART_PROCESSES(&main_proc);
@@ -19,7 +18,7 @@ PROCESS_THREAD(main_proc, ev, data)
 
   PROCESS_BEGIN();
 
-  if(conn_set_up() == -1) {
+  /*if(conn_set_up() == -1) {
 	  PROCESS_EXIT();
   }
 
@@ -57,7 +56,7 @@ PROCESS_THREAD(main_proc, ev, data)
 
     	  etimer_reset(&data_timer);
       }
-  }
+  }*/
 
   PROCESS_END();
 }

@@ -1,6 +1,6 @@
 #include "networking.h"
-#include "net/uip.h"
-#include "net/uip-udp-packet.h"
+#include "net/ip/uip.h"
+#include "net/ip/uip-udp-packet.h"
 
 static struct uip_udp_conn* conn_handle;
 static uip_ipaddr_t border_router;
