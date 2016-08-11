@@ -2,64 +2,48 @@
 <configuration>
 	<match>
 		<field>
-			<name>Temperature (Sensiron SHT11)</name>
-			<fieldID>0x80A0</fieldID>
-			<enterpriseNumber>0xF0AA00AA</enterpriseNumber>
+			<name>Temperature (SHT12)</name>
+			<fieldID>0x80B0</fieldID>
+			<enterpriseNumber>0x12345678</enterpriseNumber>
 			<type>Temperature</type>
 			<unit>°C</unit>
-			<expression><![CDATA[Math.round((-39.7 + (0.01 * x)) * 100) / 100]]></expression>
+			<expression><![CDATA[x/100]]></expression>
 		</field>
 		<field>
-			<name>Humidity (Sensiron SHT11)</name>
-			<fieldID>0x80A1</fieldID>
-			<enterpriseNumber>0xF0AA00AA</enterpriseNumber>
+			<name>Humidity (SHT12)</name>
+			<fieldID>0x80B1</fieldID>
+			<enterpriseNumber>0x12345678</enterpriseNumber>
 			<type>Humidity</type>
 			<unit>%</unit>
-			<expression><![CDATA[Math.round((-2.0468 + (0.0367 * x) + (-0.0000015955 * (x * x))) * 100) / 100]]></expression>
+			<expression><![CDATA[x/100]]></expression>
 		</field>
 		<field>
-			<name>Light Photo (S1087)</name>
-			<fieldID>0x80A2</fieldID>
-			<enterpriseNumber>0xF0AA00AA</enterpriseNumber>
-			<type>Light Photo</type>
+			<name>MAX44009 Light</name>
+			<fieldID>0x80B2</fieldID>
+			<enterpriseNumber>0x12345678</enterpriseNumber>
+			<type>Light</type>
 			<unit>Lux</unit>
-			<expression><![CDATA[Math.round(x * 100) / 100]]></expression>
-		</field>
-		<field>
-			<name>Light Total (S1087)</name>
-			<fieldID>0x80A3</fieldID>
-			<enterpriseNumber>0xF0AA00AA</enterpriseNumber>
-			<type>Light Total</type>
-			<unit>Lux</unit>
-			<expression><![CDATA[Math.round(x * 100) / 100]]></expression>
-		</field>
-		<field>
-			<name>Battery Voltage (TelosB)</name>
-			<fieldID>0x80A4</fieldID>
-			<enterpriseNumber>0xF0AA00AA</enterpriseNumber>
-			<type>Voltage</type>
-			<unit>V</unit>
-			<expression><![CDATA[Math.round(x / 1000 * 100) / 100]]></expression>
+			<expression><![CDATA[x/100]]></expression>
 		</field>
 		<field>
 			<name>Node Time</name>
-			<fieldID>0x80A5</fieldID>
-			<enterpriseNumber>0xF0AA00AA</enterpriseNumber>
+			<fieldID>0x80B3</fieldID>
+			<enterpriseNumber>0x12345678</enterpriseNumber>
 			<type>NodeTime</type>
 			<unit>sec</unit>
 			<expression><![CDATA[Math.round(x)]]></expression>
 		</field>
 		<field>
 			<name>NodeID</name>
-			<fieldID>0x80A6</fieldID>
-			<enterpriseNumber>0xF0AA00AA</enterpriseNumber>
+			<fieldID>0x80B4</fieldID>
+			<enterpriseNumber>0x12345678</enterpriseNumber>
 			<type>NodeID</type>
 			<expression><![CDATA[Math.round(x)]]></expression>
 		</field>		
 		<field>
 			<name>Pull Flag</name>
-			<fieldID>0x80A7</fieldID>
-			<enterpriseNumber>0xF0AA00AA</enterpriseNumber>
+			<fieldID>0x80B5</fieldID>
+			<enterpriseNumber>0x12345678</enterpriseNumber>
 			<type>Pull Flag</type>
 			<expression><![CDATA[Math.round(x)]]></expression>
 		</field>

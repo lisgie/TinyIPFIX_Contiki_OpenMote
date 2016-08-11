@@ -2,12 +2,15 @@
 #include "net/ip/uip.h"
 #include "net/ip/uip-udp-packet.h"
 
+#include <stdio.h>
+
 static struct uip_udp_conn* conn_handle;
 static uip_ipaddr_t border_router;
 
 int conn_set_up() {
 
-	uip_ip6addr(&border_router, 0xaaaa, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0xffff);
+
+	uip_ip6addr(&border_router, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0xffff);
 
 	if((conn_handle = udp_new (&border_router, UIP_HTONS (BORDER_ROUTER_PORT), NULL)) == NULL)
 		return -1;

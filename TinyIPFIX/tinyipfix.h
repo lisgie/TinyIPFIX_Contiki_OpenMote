@@ -17,6 +17,8 @@
 
 #define SET_HEADER_SIZE 4
 
+#define PULL_FLAG 1
+
 struct template_rec {
 
 	//the enterprise bit will be the MSB of element_id, to not waste another byte
