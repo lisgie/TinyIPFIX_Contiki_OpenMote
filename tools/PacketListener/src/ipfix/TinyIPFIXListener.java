@@ -28,6 +28,10 @@ public class TinyIPFIXListener implements Runnable {
 	private BufferedReader stdInput;
 	private Process tunslip6Process;
 	private static final String TUNSLIP6 = "./tunslip6";
+
+	//please adjust path for tunslip application
+	String fullCommand = "sudo /home/livio/workspace/contiki/tools/tunslip6 -s /dev/ttyUSB0 aaaa:1/64 -v5";
+
 	private String tunslip6Args;
 	private String usbDevice;
 	private FileWriter fileWriter;
@@ -113,7 +117,6 @@ public class TinyIPFIXListener implements Runnable {
 		//String[] fullCommand = { "/bin/bash", "-c",
 			//	"echo \"contiki\" | sudo -S" + " " + TUNSLIP6 + " " + tunslip6Args };
 		
-		String fullCommand = "sudo /home/livio/workspace/contiki/tools/tunslip6 -s /dev/ttyUSB0 aaaa:1/64 -v5";
 
 		try {
 			tunslip6Process = Runtime.getRuntime().exec(fullCommand);

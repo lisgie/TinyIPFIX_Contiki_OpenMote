@@ -1,2 +1,8 @@
 symbols*
 obj_*
+*.bin
+*.elf
+*.hex
+*openmote-cc2538*
+*.*project
+.settings/
