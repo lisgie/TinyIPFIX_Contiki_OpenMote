@@ -1,28 +1,21 @@
-/*
- * openmote.h
- *
- *  Created on: Aug 10, 2016
- *      Author: livio
- */
-
 #ifndef OPENMOTE_H_
 #define OPENMOTE_H_
 
 #define NUM_ENTRIES 6
 
-//SHT11 Temperature Sensor
+//SHT12 Temperature Sensor
 #define ELEMENT_ID_TEMP 0x80B0
 #define ENTERPRISE_ID_TEMP 0x12345678
 #define E_BIT_TEMP 1
 #define LEN_TEMP 2
 
-//SHT11 Humidity Sensor
+//SHT12 Humidity Sensor
 #define ELEMENT_ID_HUMID 0x80B1
 #define ENTERPRISE_ID_HUMID 0x12345678
 #define E_BIT_HUMID 1
 #define LEN_HUMID 2
 
-//S1087 Light Sensor
+//MAX44009 Light Sensor
 #define ELEMENT_ID_LIGHT 0x80B2
 #define ENTERPRISE_ID_LIGHT 0x12345678
 #define E_BIT_LIGHT 1
@@ -46,7 +39,7 @@
 #define E_BIT_PULL 1
 #define LEN_PULL 1
 
-//this is needed as changeable header option for the data sets
+//This is needed as changeable header option for TinyIPFIX messages
 #define EXTENDED_HEADER_SEQ 0
 #define EXTENDED_HEADER_SET_ID 0
 

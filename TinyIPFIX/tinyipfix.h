@@ -29,7 +29,7 @@ struct template_rec {
 	void (* sens_val)(void*);
 };
 
-void initialize(void);
+uint8_t initialize_tinyipfix(void);
 uint8_t *get_template(void);
 uint8_t *get_data(void);
 
