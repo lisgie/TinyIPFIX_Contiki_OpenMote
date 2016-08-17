@@ -1,5 +1,7 @@
 //Used for memcpy(...)
 #include <string.h>
+//Used for malloc(...)
+#include <stdlib.h>
 
 #include "tinyipfix.h"
 
@@ -44,11 +46,17 @@ uint8_t build_data_payload(void);
 //for optimization reasons. Sequence number needs to be updated in every msg, though
 uint8_t build_data_header(void);
 
+uint16_t calc_template_size();
+uint16_t calc_data_size();
+
 //TinyIPFIX messages can only be used, if the system has been initialized
 uint8_t is_initialized = 0;
 
-uint8_t template_buf[MAX_MSG_SIZE];
-uint8_t data_buf[MAX_MSG_SIZE];
+uint8_t *template_buf;
+uint8_t *data_buf;
+
+uint16_t template_size;
+uint16_t data_size;
 
 //Defines field ID, length, enterprise num and function pointer
 struct template_rec *sensor;
@@ -57,6 +65,11 @@ uint8_t initialize_tinyipfix(void) {
 
 	sensor = init_template();
 
+	template_size = calc_template_size();
+	template_buf = (uint8_t*)malloc(template_size*sizeof(uint8_t));
+	data_size = calc_data_size();
+	data_buf = (uint8_t*)malloc(data_size*sizeof(uint8_t));
+
 	//Everything needs to be properly set up in order to continue, else errorcode
 	if( build_template() == -1 || build_data_header() == -1 )
 		return -1;
@@ -64,6 +77,41 @@ uint8_t initialize_tinyipfix(void) {
 	is_initialized = 1;
 
 	return 0;
+}
+
+uint16_t calc_template_size() {
+
+	uint8_t i;
+	uint16_t template_size = MSG_HEADER_SIZE;
+
+	//Calculate length first to be able to build the message header
+	for(i = 0; i < NUM_ENTRIES; i++) {
+
+		//Check first bit to know if enterprise field is set or not
+		if( ((sensor[i].element_id) | 0x8000) == sensor[i].element_id) {
+			template_size += 4;
+		}
+	}
+
+	//4 = sizeof(element_id) + sizeof(field_len) = 2 + 2
+	template_size += 4*NUM_ENTRIES;
+	//Template Set Header
+	template_size += SET_HEADER_SIZE;
+
+	return template_size;
+}
+
+uint16_t calc_data_size() {
+
+	uint8_t i;
+	uint16_t data_size = MSG_HEADER_SIZE;
+
+	for(i = 0; i < NUM_ENTRIES; i++) {
+
+		data_size += sensor[i].field_len;
+	}
+
+	return data_size;
 }
 
 uint8_t build_msg_header(uint8_t* buf, uint16_t set_id, uint16_t length, uint16_t seq_num) {
@@ -75,7 +123,7 @@ uint8_t build_msg_header(uint8_t* buf, uint16_t set_id, uint16_t length, uint16_
 	//Zeroing out, can't rely on zero in mem
 	buf[0] = 0;
 
-	//Shorcut for certain SetIDs, check TinyIPFIX draft
+	//Shortcut for certain SetIDs, check TinyIPFIX draft
 	if(set_id == TEMPLATE_SET_ID) {
 		set_id = 1;
 	} else if(set_id == DATA_SET_ID) {
@@ -88,7 +136,7 @@ uint8_t build_msg_header(uint8_t* buf, uint16_t set_id, uint16_t length, uint16_
 	}
 
 	//Length is part of the message header at a fixed location, known at compile time
-	length += MSG_HEADER_SIZE;
+	//length += MSG_HEADER_SIZE;
 	buf[0] |= (uint8_t)(length >> 8);
 	buf[1] = (uint8_t)(length);
 
@@ -133,24 +181,8 @@ uint8_t build_msg_header(uint8_t* buf, uint16_t set_id, uint16_t length, uint16_
 	//Can be found at [platform].h
 	uint16_t field_count = NUM_ENTRIES;
 
-	//Used for the header
-	uint16_t template_size = 0;
 	//Used to know where we are within our buffer
 	uint16_t template_tmp_len = MSG_HEADER_SIZE;
-
-	//Calculate length first to be able to build the message header
-	for(i = 0; i < NUM_ENTRIES; i++) {
-
-		//Check first bit to know if enterprise field is set or not
-		if( ((sensor[i].element_id) | 0x8000) == sensor[i].element_id) {
-			template_size += 4;
-		}
-	}
-
-	//4 = sizeof(element_id) + sizeof(field_len) = 2 + 2
-	template_size += 4*NUM_ENTRIES;
-	//Template Set Header
-	template_size += SET_HEADER_SIZE;
 
 	if( build_msg_header(template_buf, TEMPLATE_SET_ID, template_size, 0xFFFF) == -1)
 		return -1;
@@ -190,14 +222,6 @@ uint8_t build_msg_header(uint8_t* buf, uint16_t set_id, uint16_t length, uint16_
 
 //Everything known at compile time except changing sequence number
 uint8_t build_data_header(void) {
-
-	uint8_t i;
-	uint16_t data_size = 0;
-
-	for(i = 0; i < NUM_ENTRIES; i++) {
-
-		data_size += sensor[i].field_len;
-	}
 
 	//Sequence number starts at 0x00
 	if( build_msg_header(data_buf, DATA_SET_ID, data_size, 0x00) == -1 )

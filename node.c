@@ -7,8 +7,8 @@
 #include "TinyIPFIX/tinyipfix.h"
 #include "networking/networking.h"
 
-#define TEMPLATE_INTERVAL 16
-#define DATA_INTERVAL 7
+#define TEMPLATE_INTERVAL 17
+#define DATA_INTERVAL 5
 
 PROCESS(main_proc, "Main Process");
 AUTOSTART_PROCESSES(&main_proc);

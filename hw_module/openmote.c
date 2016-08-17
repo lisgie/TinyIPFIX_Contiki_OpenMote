@@ -98,6 +98,6 @@ void read_id(void* id) {
 //0 corresponds to push, 1 corresponds to pull
 void read_pull(void *pull) {
 
-	*((uint8_t *)(pull)) = PULL_FLAG;
+	*((uint8_t *)(pull)) = 0;
 }
 //END OF FUNCTIONS TO READ VALUES --------------------------------
