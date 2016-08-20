@@ -195,7 +195,7 @@ uint8_t build_msg_header(uint8_t* buf, uint16_t set_id, uint16_t length, uint16_
 	memcpy(&template_buf[template_tmp_len], &ref_set_id, sizeof(ref_set_id));
 	template_tmp_len += sizeof(ref_set_id);
 	memcpy(&template_buf[template_tmp_len], &field_count, sizeof(field_count));
-	template_tmp_len += sizeof(ref_set_id);
+	template_tmp_len += sizeof(field_count);
 
 	//Filling up the template with records
 	for(i = 0; i < NUM_ENTRIES; i++) {
